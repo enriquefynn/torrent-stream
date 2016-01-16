@@ -157,15 +157,15 @@ var torrentStream = function (link, opts, cb) {
 
     engine.files = torrent.files.map(function (file) {
       file = Object.create(file)
-      var offsetPiece = (file.offset / torrent.pieceLength) | 0
-      var endPiece = ((file.offset + file.length - 1) / torrent.pieceLength) | 0
+      file.offsetPiece = (file.offset / torrent.pieceLength) | 0
+      file.endPiece = ((file.offset + file.length - 1) / torrent.pieceLength) | 0
 
       file.deselect = function () {
-        engine.deselect(offsetPiece, endPiece, false)
+        engine.deselect(file.offsetPiece, file.endPiece, false)
       }
 
       file.select = function () {
-        engine.select(offsetPiece, endPiece, false)
+        engine.select(file.offsetPiece, file.endPiece, false)
       }
 
       file.createReadStream = function (opts) {
